@@ -648,7 +648,7 @@ public class Gui_Score_Input extends JFrame {
 		if(result[0] == 1 && result[1] == 1 && result[2] == 1 && result[3] == 1 && result[4] == 1 && result[5] == 1 && result[6] == 1 && result[7] == 1 && result[8] == 1 && result[9] == 1 && result[10] == 1 && result[11] == 1) {
 			JOptionPane.showMessageDialog(this, "점수가 등록되었습니다!", "점수 등록", JOptionPane.PLAIN_MESSAGE);
 		}else {
-			JOptionPane.showMessageDialog(this, "점수가 등록되자 않았습니다!", "Error", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "점수가 등록되지 않았습니다!", "Error", JOptionPane.PLAIN_MESSAGE);
 		}
 
 		browseButtonActionPerformed(evt);
