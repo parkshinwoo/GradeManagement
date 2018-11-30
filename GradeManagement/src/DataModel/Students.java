@@ -15,6 +15,8 @@ public class Students {
 	private int Design_specification; // 설계 명세서 
 	private int Project_code; // 최종 프로그램 코드
 	private int Final_report; // 최종 보고서
+	private int Total_score; // 총점
+	private String Grade; // 학점 등급
 	
 	public Students() {
 		
@@ -22,7 +24,7 @@ public class Students {
 	
 	public Students(int StudentID, String Student_name, int Attendance, int Late, int Absent,
 			int Midterm, int Final, int Presentation, int Project_proposal,
-			int Requirement_specification, int Gui_plan, int Design_specification, int Project_code, int Final_report) {
+			int Requirement_specification, int Gui_plan, int Design_specification, int Project_code, int Final_report, int Total_score, String Grade) {
 		setStudentID(StudentID);
 		setStudent_name(Student_name);
 		setAttendance(Attendance);
@@ -37,8 +39,26 @@ public class Students {
 		setDesign_specification(Design_specification);
 		setProject_code(Project_code);
 		setFinal_report(Final_report);
+		setTotal_score(Total_score);
+		setGrade(Grade);
 	}
 
+	public void setTotal_score(int Total_score) {
+		this.Total_score = Total_score;
+	}
+	
+	public int getTotal_score() {
+		return Total_score;
+	}
+	
+	public void setGrade(String Grade) {
+		this.Grade = Grade;
+	}
+	
+	public String getGrade() {
+		return Grade;
+	}
+	
 	public int getStudentID() {
 		return StudentID;
 	}

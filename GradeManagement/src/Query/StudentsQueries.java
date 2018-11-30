@@ -95,7 +95,9 @@ public class StudentsQueries {
 					resultSet.getInt("Gui_plan"),
 					resultSet.getInt("Design_specification"),
 					resultSet.getInt("Project_code"),
-					resultSet.getInt("Final_report")
+					resultSet.getInt("Final_report"),
+					resultSet.getInt("Total_score"),
+					resultSet.getString("Grade")
 					));
 			}
 		}catch(SQLException sqlException) {
@@ -137,7 +139,9 @@ public class StudentsQueries {
 						resultSet.getInt("Gui_plan"),
 						resultSet.getInt("Design_specification"),
 						resultSet.getInt("Project_code"),
-						resultSet.getInt("Final_report")
+						resultSet.getInt("Final_report"),
+						resultSet.getInt("Total_score"),
+						resultSet.getString("Grade")
 						));
 			}
 		}catch(SQLException sqlException) {
