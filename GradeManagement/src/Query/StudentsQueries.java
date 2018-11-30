@@ -158,6 +158,8 @@ public class StudentsQueries {
 		
 		if(attendance < 0) {
 			attendance = 0;
+		}else if(attendance > 32) {
+			attendance = 32; // 16주, 1주에 수업 2회이므로 최대 32회
 		}
 		
 		try {
@@ -175,6 +177,8 @@ public class StudentsQueries {
 		
 		if(late < 0) {
 			late = 0;
+		}else if(late > 32) {
+			late = 32;
 		}
 		
 		try {
@@ -192,6 +196,8 @@ public class StudentsQueries {
 		
 		if(absent < 0) {
 			absent = 0;
+		}else if(absent > 32) {
+			absent = 32;
 		}
 		
 		try {
@@ -209,6 +215,8 @@ public class StudentsQueries {
 		
 		if(midterm < 0) {
 			midterm = 0;
+		}else if(midterm > 100) {
+			midterm = 100; // 입력은 100점 만점 기준으로 합니다. 향후 성적 계산시, 설정한 비율에 맞춰서 계산
 		}
 		
 		try {
@@ -226,6 +234,8 @@ public class StudentsQueries {
 		
 		if(Final < 0) {
 			Final = 0;
+		}else if(Final > 100) {
+			Final = 100;
 		}
 		
 		try {
@@ -243,6 +253,8 @@ public class StudentsQueries {
 		
 		if(presentation < 0) {
 			presentation = 0;
+		}else if(presentation > 100) {
+			presentation = 100;
 		}
 		
 		try {
@@ -260,6 +272,8 @@ public class StudentsQueries {
 		
 		if(project_proposal < 0) {
 			project_proposal = 0;
+		}else if(project_proposal > 100) {
+			project_proposal = 100;
 		}
 		
 		try {
@@ -277,6 +291,8 @@ public class StudentsQueries {
 		
 		if(requirement_specification < 0) {
 			requirement_specification = 0;
+		}else if(requirement_specification > 100) {
+			requirement_specification = 100;
 		}
 		
 		try {
@@ -294,6 +310,8 @@ public class StudentsQueries {
 		
 		if(gui_plan < 0) {
 			gui_plan = 0;
+		}else if(gui_plan > 100) {
+			gui_plan = 100;
 		}
 		
 		try {
@@ -311,6 +329,8 @@ public class StudentsQueries {
 		
 		if(design_specification < 0) {
 			design_specification = 0;
+		}else if(design_specification > 100) {
+			design_specification = 100;
 		}
 		
 		try {
@@ -328,6 +348,8 @@ public class StudentsQueries {
 		
 		if(project_code < 0) {
 			project_code = 0;
+		}else if(project_code > 100) {
+			project_code = 100;
 		}
 		
 		try {
@@ -345,6 +367,8 @@ public class StudentsQueries {
 		
 		if(final_report < 0) {
 			final_report = 0;
+		}else if(final_report > 100) {
+			final_report = 100;
 		}
 		
 		try {
