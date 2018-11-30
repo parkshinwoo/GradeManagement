@@ -33,6 +33,9 @@ public class StudentsQueries {
 	private PreparedStatement updateProject_code = null;
 	private PreparedStatement updateFinal_report = null;
 	
+	private PreparedStatement updateTotal_score = null;
+	private PreparedStatement updateGrade = null;
+	
 	
 	public StudentsQueries() {
 		try {
@@ -66,6 +69,11 @@ public class StudentsQueries {
 					connection.prepareStatement("UPDATE Students SET Project_code = ? WHERE Student_name = ?");
 			updateFinal_report =
 					connection.prepareStatement("UPDATE Students SET Final_report = ? WHERE Student_name = ?");
+			
+			updateTotal_score = 
+					connection.prepareStatement("UPDATE Students SET Total_score = ? WHERE Student_name = ?");
+			updateGrade = 
+					connection.prepareStatement("UPDATE Students SET Total_score = ? WHERE Student_name = ?");
 		}catch(SQLException sqlException) {
 			sqlException.printStackTrace();
 			System.exit(1);
@@ -379,6 +387,40 @@ public class StudentsQueries {
 			updateFinal_report.setInt(1, final_report);
 			updateFinal_report.setString(2, name);
 			result = updateFinal_report.executeUpdate(); 
+		}catch(SQLException sqlException) {
+			sqlException.printStackTrace();
+			close();
+		}
+		return result;
+	}
+	
+	public int UpdateTotal_score(String name, int total_score) {
+		int result = 0;
+		
+		if(total_score < 0) {
+			total_score = 0;
+		}else if(total_score > 100) {
+			total_score = 100;
+		}
+		
+		try {
+			updateTotal_score.setInt(1, total_score);
+			updateTotal_score.setString(2, name);
+			result = updateTotal_score.executeUpdate(); 
+		}catch(SQLException sqlException) {
+			sqlException.printStackTrace();
+			close();
+		}
+		return result;
+	}
+	
+	public int UpdateGrade(String name, String grade) {
+		int result = 0;
+		
+		try {
+			updateGrade.setString(1, grade);
+			updateGrade.setString(2, name);
+			result = updateGrade.executeUpdate(); 
 		}catch(SQLException sqlException) {
 			sqlException.printStackTrace();
 			close();
