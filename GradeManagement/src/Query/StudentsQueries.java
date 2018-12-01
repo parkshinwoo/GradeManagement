@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DataModel.Students;
+import DataModel.Grade_Ratio;
+import Query.Grade_RatioQueries;
 
 public class StudentsQueries {
 	private static final String URL = 
@@ -18,6 +20,7 @@ public class StudentsQueries {
 	
 	private Connection connection = null;
 	
+	private PreparedStatement selectStudentDesc = null;
 	private PreparedStatement selectAllStudent = null;
 	private PreparedStatement selectStudentByName = null;
 	private PreparedStatement updateAttendance = null;
@@ -36,11 +39,14 @@ public class StudentsQueries {
 	private PreparedStatement updateTotal_score = null;
 	private PreparedStatement updateGrade = null;
 	
+	private Grade_RatioQueries grade_ratioQueries;
 	
 	public StudentsQueries() {
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			
+			selectStudentDesc = 
+					connection.prepareStatement("SELECT * FROM Students ORDER BY Total_score DESC");
 			selectAllStudent = 
 					connection.prepareStatement("SELECT * FROM Students");
 			selectStudentByName = 
@@ -73,7 +79,7 @@ public class StudentsQueries {
 			updateTotal_score = 
 					connection.prepareStatement("UPDATE Students SET Total_score = ? WHERE Student_name = ?");
 			updateGrade = 
-					connection.prepareStatement("UPDATE Students SET Total_score = ? WHERE Student_name = ?");
+					connection.prepareStatement("UPDATE Students SET Grade = ? WHERE Student_name = ?");
 		}catch(SQLException sqlException) {
 			sqlException.printStackTrace();
 			System.exit(1);
@@ -434,5 +440,172 @@ public class StudentsQueries {
 		}catch(SQLException sqlException) {
 			sqlException.printStackTrace();
 		}
+	}
+	
+	
+	/*
+	 * 총점을 계산하는 메소드입니다. (반환값은 전체 학생의 총점에 대한 평균값) 계산은 모두 소숫점은 '버림'으로 처리합니다.
+	 * 출석은 100점 만점에 10%이며, 지각은 0.5점 감점, 결석은 1점 감점하게끔 설정했습니다. 향후 학점 등급을 부여할때는 지각 12번 이상 F, 결석 6번 이상 F를 설정합니다.
+	 */
+	public int computeTotalScore(){
+		ResultSet resultSet = null;
+		int total_score = 0;
+		int all_total_score = 0;
+		
+		try {
+			resultSet = selectAllStudent.executeQuery();
+			
+			while(resultSet.next()) { 
+				
+				total_score = (int)Math.floor((100 - resultSet.getInt("Late")*0.5 - resultSet.getInt("Absent"))*0.1)
+						+ (int)Math.floor(resultSet.getInt("Midterm")*0.15)
+						+ (int)Math.floor(resultSet.getInt("Final")*0.15)
+						+ (int)Math.floor((
+							(int)Math.floor(resultSet.getInt("Presentation")*0.1)
+							+(int)Math.floor(resultSet.getInt("Project_proposal")*0.1)
+							+(int)Math.floor(resultSet.getInt("Requirement_specification")*0.15)
+							+(int)Math.floor(resultSet.getInt("Gui_plan")*0.15)
+							+(int)Math.floor(resultSet.getInt("Design_specification")*0.2)
+							+(int)Math.floor(resultSet.getInt("Project_code")*0.2)
+							+(int)Math.floor(resultSet.getInt("Final_report")*0.1))*0.6);
+				
+				UpdateTotal_score(resultSet.getString("Student_name"), total_score); // 학생별로 총점을 업데이트합니다.
+				
+				all_total_score += total_score;
+			}
+		}catch(SQLException sqlException) {
+			sqlException.printStackTrace();
+		}finally { 
+			try {
+				resultSet.close();  
+			}catch(SQLException sqlException) {
+				sqlException.printStackTrace();
+				close(); 
+			}
+		}
+		return (int)Math.floor(all_total_score/30); // 전체 학생의 계산된 총점에 대한 평균값을 반환합니다.
+	}
+	
+	/*
+	 * 학점 등급을 부여하는 메소드입니다.
+	 * 업데이트된 총점을 기준으로 내림차순으로 데이터를 가져옵니다.
+	 * 지정된 학점 등급 비율에 맞춰서 학점을 부여하되 지각이 12번 이상, 결석이 6번 이상, 총점이 40점 미만인 학생은 F를 부과합니다.
+	 */
+	public void grantGrade(){
+		ResultSet resultSet = null;
+		ResultSet grade_ratio = null;
+		grade_ratioQueries = new Grade_RatioQueries();
+		
+		try {
+			resultSet = selectStudentDesc.executeQuery(); 
+			grade_ratio = grade_ratioQueries.selectAllGrade_Ratio.executeQuery();
+					
+			int num_of_a_plus=0;
+			int num_of_a_zero=0;
+			int num_of_b_plus=0;
+			int num_of_b_zero=0;
+			int num_of_c_plus=0;
+			int num_of_c_zero=0;
+			
+			while(grade_ratio.next()) {
+				num_of_a_plus = (int)Math.floor(grade_ratio.getInt("A_plus")*0.01*30);
+				num_of_a_zero = (int)Math.floor(grade_ratio.getInt("A_zero")*0.01*30);
+				num_of_b_plus = (int)Math.floor(grade_ratio.getInt("B_plus")*0.01*30);
+				num_of_b_zero = (int)Math.floor(grade_ratio.getInt("B_zero")*0.01*30);
+				num_of_c_plus = (int)Math.floor(grade_ratio.getInt("C_plus")*0.01*30);
+				num_of_c_zero = (int)Math.floor(grade_ratio.getInt("C_zero")*0.01*30);
+			}
+			
+			int i = 1;
+			while(resultSet.next()) { 
+				
+				if(i <= num_of_a_plus) {
+					// 결석, 지각, 총점을 따져서 f 부과
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "A+");
+						i++;
+					}
+				}else if(i <= num_of_a_zero) {
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "A0");
+						i++;
+					}
+				}else if(i <= num_of_b_plus) {
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "B+");
+						i++;
+					}
+				}else if(i <= num_of_b_zero) {
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "B0");
+						i++;
+					}
+				}else if(i <= num_of_c_plus) {
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "C+");
+						i++;
+					}
+				}else if(i <= num_of_c_zero) {
+					if(resultSet.getInt("Late") >= 12 || resultSet.getInt("Absent")>=6 || resultSet.getInt("Total_score") < 40) {
+						UpdateGrade(resultSet.getString("Student_name"), "F");
+						i++;
+					}else {
+						UpdateGrade(resultSet.getString("Student_name"), "C0");
+						i++;
+					}
+				}else {
+					UpdateGrade(resultSet.getString("Student_name"), "F");
+					i++;
+				}
+			}
+		}catch(SQLException sqlException) {
+			sqlException.printStackTrace();
+		}finally { 
+			try {
+				resultSet.close();  
+			}catch(SQLException sqlException) {
+				sqlException.printStackTrace();
+				close(); 
+			}
+		}
+	}
+	
+	// 전체 학생 총점의 평균을 반환하는 메소드입니다.
+	public int getAverageTotalScore() {
+		int all_total_score = 0;
+		ResultSet resultSet = null;
+		
+		try {
+			resultSet = selectAllStudent.executeQuery();
+			
+			while(resultSet.next()) { 
+				all_total_score += resultSet.getInt("Total_score");
+			}
+		}catch(SQLException sqlException) {
+			sqlException.printStackTrace();
+		}finally { 
+			try {
+				resultSet.close();  
+			}catch(SQLException sqlException) {
+				sqlException.printStackTrace();
+				close(); 
+			}
+		}
+		return (int)Math.floor(all_total_score/30);
 	}
 }

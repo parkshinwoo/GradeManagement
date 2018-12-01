@@ -618,6 +618,9 @@ public class Gui_Score_Input extends JFrame {
 	private void update_allButtonActonPerformed(ActionEvent evt) {
 		int[] result = new int[12];
 		
+		int total_attendance = 0;
+		total_attendance = Integer.parseInt(attendanceTextField.getText()) + Integer.parseInt(lateTextField.getText()) + Integer.parseInt(absentTextField.getText());
+		
 		for(int i=0; i<12; i++) {
 			if(i == 0)
 				result[i] = studentsQueries.UpdateAttendance(nameTextField.getText(), Integer.parseInt(attendanceTextField.getText()));
@@ -645,10 +648,10 @@ public class Gui_Score_Input extends JFrame {
 				result[i] = studentsQueries.UpdateFinal_report(nameTextField.getText(), Integer.parseInt(final_reportTextField.getText()));
 		}
 		
-		if(result[0] == 1 && result[1] == 1 && result[2] == 1 && result[3] == 1 && result[4] == 1 && result[5] == 1 && result[6] == 1 && result[7] == 1 && result[8] == 1 && result[9] == 1 && result[10] == 1 && result[11] == 1) {
+		if(total_attendance == 32 && result[0] == 1 && result[1] == 1 && result[2] == 1 && result[3] == 1 && result[4] == 1 && result[5] == 1 && result[6] == 1 && result[7] == 1 && result[8] == 1 && result[9] == 1 && result[10] == 1 && result[11] == 1) {
 			JOptionPane.showMessageDialog(this, "점수가 등록되었습니다!", "점수 등록", JOptionPane.PLAIN_MESSAGE);
 		}else {
-			JOptionPane.showMessageDialog(this, "점수가 등록되지 않았습니다!", "Error", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(this, "출석, 지각, 결석의 합은 32이여야 하며 점수는 100점 만점으로 입력하세요!", "Error", JOptionPane.PLAIN_MESSAGE);
 		}
 
 		browseButtonActionPerformed(evt);
