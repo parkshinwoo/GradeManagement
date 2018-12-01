@@ -21,7 +21,7 @@ public class StudentsQueries {
 	private Connection connection = null;
 	
 	private PreparedStatement selectStudentDesc = null;
-	private PreparedStatement selectAllStudent = null;
+	public PreparedStatement selectAllStudent = null;
 	private PreparedStatement selectStudentByName = null;
 	private PreparedStatement updateAttendance = null;
 	private PreparedStatement updateLate = null;

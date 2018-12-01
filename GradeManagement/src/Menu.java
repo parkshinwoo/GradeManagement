@@ -100,7 +100,7 @@ public class Menu extends JFrame{
 		GradeResultActionListener listener_grade_result = new GradeResultActionListener();
 		
 		JMenuItem grade_lookup = new JMenuItem("성적 조회");
-		JMenuItem grade_into_file = new JMenuItem("성적 결과 파일로 내보내기");
+		JMenuItem grade_into_file = new JMenuItem("성적 결과 CSV 파일로 내보내기");
 		
 		grade_lookup.addActionListener(listener_grade_result); // 메뉴 아이템에 이벤트 리스너 추가
 		grade_into_file.addActionListener(listener_grade_result);

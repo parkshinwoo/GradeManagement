@@ -3,6 +3,7 @@ package EventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import MenuItemDisplay.CSV_Output;
 import MenuItemDisplay.Gui_Grade_Look_Up;
 
 public class GradeResultActionListener implements ActionListener{
@@ -16,8 +17,8 @@ public class GradeResultActionListener implements ActionListener{
 		case "성적 조회":
 			new Gui_Grade_Look_Up();
 			break;
-		case "성적 결과 파일로 내보내기":
-			System.out.println("성적 결과 파일로 내보내기");
+		case "성적 결과 CSV 파일로 내보내기":
+			new CSV_Output();
 			break;
 		}
 	}
