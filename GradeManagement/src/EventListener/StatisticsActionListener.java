@@ -3,6 +3,7 @@ package EventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import DrawingGraph.DrawingGraph;
 import MenuItemDisplay.Average_Total_Score_Look_Up;
 import MenuItemDisplay.Grant_Grade;
 
@@ -21,7 +22,8 @@ public class StatisticsActionListener implements ActionListener{
 			new Average_Total_Score_Look_Up();
 			break;
 		case "점수 분포 그래프 확인":
-			System.out.println("점수 분포 그래프 확인");
+			//System.out.println("점수 분포 그래프 확인");
+			new DrawingGraph();
 			break;
 		}
 
