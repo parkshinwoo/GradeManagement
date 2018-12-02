@@ -3,6 +3,7 @@ package EventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import MenuItemDisplay.CSV_Input;
 import MenuItemDisplay.Gui_Score_Input;
 
 public class InputActionListener implements ActionListener{
@@ -17,7 +18,7 @@ public class InputActionListener implements ActionListener{
 			new Gui_Score_Input();
 			break;
 		case "파일로 점수 입력":
-			System.out.println("파일로 점수 입력");
+			new CSV_Input();
 			break;
 		}
 		
