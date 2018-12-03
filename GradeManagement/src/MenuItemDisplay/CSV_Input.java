@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import com.opencsv.CSVReader;
@@ -19,7 +18,7 @@ public class CSV_Input extends JFrame {
 		super("파일로 점수 입력");
 		studentsQueries = new StudentsQueries();
 
-		for(String[] data : readerCSV("C:/Users/User/workspace/GradeManagement/성적.csv")){
+		for(String[] data : readerCSV("C:성적.csv")){
 			
 			studentsQueries.UpdateAttendance(data[1].trim(), Integer.parseInt(data[2].trim()));
 			studentsQueries.UpdateLate(data[1].trim(), Integer.parseInt(data[3].trim()));
