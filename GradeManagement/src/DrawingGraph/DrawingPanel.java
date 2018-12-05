@@ -22,10 +22,25 @@ public class DrawingPanel extends JPanel {
 
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		if(shapeList.isEmpty()) {
 		}else {
+			int i = 0;
 			for(MyPoint point : shapeList) {
-				g.drawLine(point.getId_x(), point.getScore_y(), point.getId_x()+1, point.getScore_y()+1);
+				g.setColor(Color.GREEN);
+				g.fillRect(point.getId_x() + i*20, 0, 20, point.getScore_y());
+				
+				/*
+				// ¹Øº¯
+				g.drawLine(point.getId_x() + i*20, 100, point.getId_x() + (i+1)*20, 100);
+				// À­º¯
+				g.drawLine(point.getId_x() + i*20, 0, point.getId_x() + (i+1)*20, 0);
+				// ÁÂº¯
+				g.drawLine(point.getId_x() + i*20, 0, point.getId_x() + i*20, 100);
+				// ¿ìº¯
+				g.drawLine(point.getId_x() + (i+1)*20, 0, point.getId_x() + (i+1)*20, 100);
+				*/
+				i++;
 			}
 		}
 	}
@@ -37,8 +52,23 @@ public class DrawingPanel extends JPanel {
 		
 		if(shapeList.isEmpty()) {
 		}else {
+			int i = 0;
 			for(MyPoint point : shapeList) {
-				g2D.drawLine(point.getId_x(), point.getScore_y(), point.getId_x(), point.getScore_y());
+				g.setColor(Color.GREEN);
+				g.fillRect(point.getId_x() + i*20, 0, 20, point.getScore_y());
+				
+				/*
+				// ¹Øº¯
+				g.drawLine(point.getId_x() + i*20, 100, point.getId_x() + (i+1)*20, 100);
+				// À­º¯
+				g.drawLine(point.getId_x() + i*20, (100 - point.getScore_y()), point.getId_x() + (i+1)*20, (100 - point.getScore_y()));
+				// ÁÂº¯
+				g.drawLine(point.getId_x() + i*20, 100, point.getId_x() + i*20, (100 - point.getScore_y()));
+				// ¿ìº¯
+				g.drawLine(point.getId_x() + (i+1)*20, 100, point.getId_x() + (i+1)*20, (100 - point.getScore_y()));
+				*/
+				
+				i++;
 			}
 		}
 	}

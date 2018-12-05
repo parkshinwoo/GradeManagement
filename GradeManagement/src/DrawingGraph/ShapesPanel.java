@@ -109,6 +109,7 @@ public class ShapesPanel extends JPanel {
 					dp.shapeList.add(new MyPoint(student_id,total_score));
 				}
 				// 드로잉 패널에서 다시 그리게 해야함
+				dp.repaint();
 			}	
 			catch(SQLException sqlException) {
 				sqlException.printStackTrace();
@@ -157,6 +158,7 @@ public class ShapesPanel extends JPanel {
 					dp.shapeList.add(new MyPoint(student_id,score));
 				}
 				// 드로잉 패널에서 다시 그리게 해야함
+				dp.repaint();
 			}	
 			catch(SQLException sqlException) {
 				sqlException.printStackTrace();
@@ -196,6 +198,7 @@ public class ShapesPanel extends JPanel {
 					dp.shapeList.add(new MyPoint(student_id,Final));
 				}
 				// 드로잉 패널에서 다시 그리게 해야함
+				dp.repaint();
 			}	
 			catch(SQLException sqlException) {
 				sqlException.printStackTrace();
@@ -234,6 +237,7 @@ public class ShapesPanel extends JPanel {
 					dp.shapeList.add(new MyPoint(student_id,midterm));
 				}
 				// 드로잉 패널에서 다시 그리게 해야함
+				dp.repaint();
 			}	
 			catch(SQLException sqlException) {
 				sqlException.printStackTrace();
@@ -276,6 +280,7 @@ public class ShapesPanel extends JPanel {
 				dp.shapeList.add(new MyPoint(student_id,score));
 			}
 			// 드로잉 패널에서 다시 그리게 해야함
+			dp.repaint();
 		}	
 		catch(SQLException sqlException) {
 			sqlException.printStackTrace();

@@ -19,7 +19,7 @@ public class DrawingGraph extends JFrame {
 		this.add(dp, BorderLayout.CENTER);
 		
 		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500, 250);
+		this.setSize(638, 200);
 		this.setResizable(false);
 		this.setVisible(true);
 	}
