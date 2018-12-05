@@ -145,6 +145,7 @@ public class ShapesPanel extends JPanel {
 					total_score = resultset.getInt("Total_score");
 					grade = resultset.getString("Grade");
 							
+					/*
 					int score = (int)Math.floor((
 							(int)Math.floor(presentation*0.1)
 							+(int)Math.floor(project_proposal*0.1)
@@ -154,6 +155,17 @@ public class ShapesPanel extends JPanel {
 							+(int)Math.floor(project_code*0.2)
 							+(int)Math.floor(final_report*0.1)
 							)*0.6);
+							*/
+					
+					int score = (int)Math.floor((
+							(int)Math.floor(presentation*0.1)
+							+(int)Math.floor(project_proposal*0.1)
+							+(int)Math.floor(requirement_specification*0.15)
+							+(int)Math.floor(gui_plan*0.15)
+							+(int)Math.floor(design_specification*0.2)
+							+(int)Math.floor(project_code*0.2)
+							+(int)Math.floor(final_report*0.1)
+							));
 					
 					dp.shapeList.add(new MyPoint(student_id,score));
 				}
